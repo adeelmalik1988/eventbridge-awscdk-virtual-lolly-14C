@@ -2,9 +2,12 @@
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { BackendStack } from '../lib/backend-stack';
+import { BackendPipelineStack } from '../lib/backend_pipeline-stack';
+
+
 
 const app = new cdk.App();
-new BackendStack(app, 'BackendStack', {
+const backendStack = new BackendStack(app, 'BackendStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
@@ -19,3 +22,8 @@ new BackendStack(app, 'BackendStack', {
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
+new BackendPipelineStack(app,"PipelineDeployingBackendStack",{
+  lambdaCode: backendStack.lambdaCode
+})
+
+app.synth()

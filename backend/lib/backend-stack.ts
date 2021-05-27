@@ -8,11 +8,13 @@ import * as events from "@aws-cdk/aws-events"
 import { LambdaFunction } from '@aws-cdk/aws-events-targets';
 
 export class BackendStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+  public readonly lambdaCode: lambda.CfnParametersCode
+  constructor(app: cdk.App, id: string, props?: cdk.StackProps) {
+    super(app, id, props);
 
+    
     // The code that defines your stack goes here
-
+    
     const API = new appsync.GraphqlApi(this,"API",{
       name: "cdk-virtual-lolly-appsync-eventBridge",
       schema: appsync.Schema.fromAsset('graphql/schema.gql'),
@@ -27,49 +29,53 @@ export class BackendStack extends cdk.Stack {
       },
       logConfig: {
         fieldLogLevel: appsync.FieldLogLevel.ALL
-
+        
       },
       xrayEnabled: true
     })
-
+    
     new cdk.CfnOutput(this,"Graphql-API-URL",{
       value: API.graphqlUrl
-
+      
     })
-
+    
     new cdk.CfnOutput(this,"Graphql-API-KEY",{
       value: API.apiKey || ""
-
+      
     })
-
+    
     new cdk.CfnOutput(this,"Stack Region",{
       value: this.region  
+      
+    })
+    
+    //this.lambdaCode = lambda.Code.fromCfnParameters()
 
+    this.lambdaCode = lambda.Code.fromCfnParameters()
+    
+    const virtualLollyLambda = new lambda.Function(this,"Virtual-lolly-lambda-function",{
+        runtime: lambda.Runtime.NODEJS_12_X,
+        code: this.lambdaCode, //lambda.Code.fromAsset("functions"),
+        handler: "main.handler",
+        description: `Function generated on: ${new Date().toISOString()}`
     })
 
+    const lambdaDs = API.addLambdaDataSource("lambdaDataSource", virtualLollyLambda)
 
-    // const virtualLollyLambda = new lambda.Function(this,"Virtual-lolly-lambda-function",{
-    //   runtime: lambda.Runtime.NODEJS_12_X,
-    //   code: lambda.Code.fromAsset("functions"),
-    //   handler: "main.handler",
-    // })
+    lambdaDs.createResolver({
+      typeName: "Mutation",
+      fieldName: "createLolly"
+    })
 
-    // const lambdaDs = API.addLambdaDataSource("lambdaDataSource", virtualLollyLambda)
+    lambdaDs.createResolver({
+      typeName: "Query",
+      fieldName: "getLollyById"
+    })
 
-    // lambdaDs.createResolver({
-    //   typeName: "Mutation",
-    //   fieldName: "createLolly"
-    // })
-
-    // lambdaDs.createResolver({
-    //   typeName: "Query",
-    //   fieldName: "getLollyById"
-    // })
-
-    // lambdaDs.createResolver({
-    //   typeName: "Query",
-    //   fieldName: "listLollies"
-    // })
+    lambdaDs.createResolver({
+      typeName: "Query",
+      fieldName: "listLollies"
+    })
 
 
     const virtualLollyTable = new dynamoDb.Table(this,"Virtual-lolly-dynamoDb-table",{
@@ -81,9 +87,9 @@ export class BackendStack extends cdk.Stack {
 
     })
 
-    // virtualLollyTable.grantFullAccess(virtualLollyLambda)
+    virtualLollyTable.grantFullAccess(virtualLollyLambda)
 
-    // virtualLollyLambda.addEnvironment("TABLE_NAME", virtualLollyTable.tableName )
+    virtualLollyLambda.addEnvironment("TABLE_NAME", virtualLollyTable.tableName )
 
     // ///Allowing Lambda function to create events which will trigger codepipeline
     // events.EventBus.grantAllPutEvents(virtualLollyLambda) 

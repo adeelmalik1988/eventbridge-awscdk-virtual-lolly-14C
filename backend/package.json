@@ -22,6 +22,9 @@
   },
   "dependencies": {
     "@aws-cdk/aws-appsync": "^1.106.1",
+    "@aws-cdk/aws-codebuild": "^1.106.1",
+    "@aws-cdk/aws-codepipeline": "^1.106.1",
+    "@aws-cdk/aws-codepipeline-actions": "^1.106.1",
     "@aws-cdk/aws-dynamodb": "^1.106.1",
     "@aws-cdk/aws-events": "^1.106.1",
     "@aws-cdk/aws-events-targets": "^1.106.1",
