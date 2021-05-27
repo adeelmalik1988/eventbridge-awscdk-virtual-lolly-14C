@@ -13,39 +13,39 @@ export class BackendStack extends cdk.Stack {
 
     // The code that defines your stack goes here
 
-    // const API = new appsync.GraphqlApi(this,"API",{
-    //   name: "cdk-virtual-lolly-appsync-eventBridge",
-    //   schema: appsync.Schema.fromAsset('graphql/schema.gql'),
-    //   authorizationConfig:{
-    //     defaultAuthorization: {
-    //       authorizationType: appsync.AuthorizationType.API_KEY,
-    //       apiKeyConfig: {
-    //         expires: cdk.Expiration.after(cdk.Duration.days(365))
-    //       }
-    //     }
+    const API = new appsync.GraphqlApi(this,"API",{
+      name: "cdk-virtual-lolly-appsync-eventBridge",
+      schema: appsync.Schema.fromAsset('graphql/schema.gql'),
+      authorizationConfig:{
+        defaultAuthorization: {
+          authorizationType: appsync.AuthorizationType.API_KEY,
+          apiKeyConfig: {
+            expires: cdk.Expiration.after(cdk.Duration.days(365))
+          }
+        }
         
-    //   },
-    //   logConfig: {
-    //     fieldLogLevel: appsync.FieldLogLevel.ALL
+      },
+      logConfig: {
+        fieldLogLevel: appsync.FieldLogLevel.ALL
 
-    //   },
-    //   xrayEnabled: true
-    // })
+      },
+      xrayEnabled: true
+    })
 
-    // new cdk.CfnOutput(this,"Graphql-API-URL",{
-    //   value: API.graphqlUrl
+    new cdk.CfnOutput(this,"Graphql-API-URL",{
+      value: API.graphqlUrl
 
-    // })
+    })
 
-    // new cdk.CfnOutput(this,"Graphql-API-KEY",{
-    //   value: API.apiKey || ""
+    new cdk.CfnOutput(this,"Graphql-API-KEY",{
+      value: API.apiKey || ""
 
-    // })
+    })
 
-    // new cdk.CfnOutput(this,"Stack Region",{
-    //   value: this.region  
+    new cdk.CfnOutput(this,"Stack Region",{
+      value: this.region  
 
-    // })
+    })
 
 
     // const virtualLollyLambda = new lambda.Function(this,"Virtual-lolly-lambda-function",{
