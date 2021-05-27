@@ -71,7 +71,7 @@ export class BackendPipelineStack extends cdk.Stack {
             repo: 'eventbridge-awscdk-virtual-lolly-14C',
             oauthToken: cdk.SecretValue.plainText("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"), ///create token on github and save it on aws secret manager
             output: sourceOutput,   //Output will save in the sourceOutput Artifact
-            branch: "master",
+            branch: "main",
         })
       ]
     })
