@@ -21,10 +21,13 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "@aws-cdk/aws-appsync": "^1.106.0",
-    "@aws-cdk/aws-dynamodb": "^1.106.0",
-    "@aws-cdk/aws-lambda": "^1.106.0",
-    "@aws-cdk/core": "1.106.0",
+    "@aws-cdk/aws-appsync": "^1.106.1",
+    "@aws-cdk/aws-dynamodb": "^1.106.1",
+    "@aws-cdk/aws-events": "^1.106.1",
+    "@aws-cdk/aws-events-targets": "^1.106.1",
+    "@aws-cdk/aws-lambda": "^1.106.1",
+    "@aws-cdk/aws-sns-subscriptions": "^1.106.1",
+    "@aws-cdk/core": "1.106.1",
     "aws-sdk": "^2.914.0",
     "source-map-support": "^0.5.16"
   }

@@ -2,6 +2,10 @@ import * as cdk from '@aws-cdk/core';
 import * as appsync from "@aws-cdk/aws-appsync"
 import * as lambda from "@aws-cdk/aws-lambda"
 import * as dynamoDb from "@aws-cdk/aws-dynamodb"
+import * as subscriptions from "@aws-cdk/aws-sns-subscriptions"
+import * as targets from "@aws-cdk/aws-events-targets"
+import * as events from "@aws-cdk/aws-events"
+import { LambdaFunction } from '@aws-cdk/aws-events-targets';
 
 export class BackendStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -80,6 +84,16 @@ export class BackendStack extends cdk.Stack {
     virtualLollyTable.grantFullAccess(virtualLollyLambda)
 
     virtualLollyLambda.addEnvironment("TABLE_NAME", virtualLollyTable.tableName )
+
+    ///Allowing Lambda function to create events which will trigger codepipeline
+    events.EventBus.grantAllPutEvents(virtualLollyLambda) 
+
+    const rule = new events.Rule(this,"LambdaEventBridgeVirtualLolly",{
+      eventPattern: {
+        source: ["lambda-events-codepipelineFE"]
+      }
+
+    })
 
 
 
