@@ -85,15 +85,15 @@ export class BackendStack extends cdk.Stack {
 
     virtualLollyLambda.addEnvironment("TABLE_NAME", virtualLollyTable.tableName )
 
-    ///Allowing Lambda function to create events which will trigger codepipeline
-    events.EventBus.grantAllPutEvents(virtualLollyLambda) 
+    // ///Allowing Lambda function to create events which will trigger codepipeline
+    // events.EventBus.grantAllPutEvents(virtualLollyLambda) 
 
-    const rule = new events.Rule(this,"LambdaEventBridgeVirtualLolly",{
-      eventPattern: {
-        source: ["lambda-events-codepipelineFE"]
-      }
+    // const rule = new events.Rule(this,"LambdaEventBridgeVirtualLolly",{
+    //   eventPattern: {
+    //     source: ["lambda-events-codepipelineFE"]
+    //   }
 
-    })
+    // })
 
 
 
