@@ -51,7 +51,7 @@ export class BackendPipelineStack extends cdk.Stack {
         },
       }),
       environment: {
-          buildImage: CodeBuild.LinuxBuildImage.STANDARD_3_0
+          buildImage: CodeBuild.LinuxBuildImage.STANDARD_5_0
       }
 
     })
