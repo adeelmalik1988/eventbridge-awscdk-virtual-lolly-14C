@@ -34,7 +34,6 @@ export class BackendPipelineStack extends cdk.Stack {
           install: {
             commands: [
               "cd backend",
-              "cd functions",
               "npm install",
           ],
           },
