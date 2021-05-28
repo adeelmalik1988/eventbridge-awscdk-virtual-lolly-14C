@@ -3,6 +3,7 @@ import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { BackendStack } from '../lib/backend-stack';
 import { BackendPipelineStack } from '../lib/backend_pipeline-stack';
+import { FrontendPipelineStack } from "../lib/frontend_pipeline-stack"
 
 
 
@@ -24,6 +25,10 @@ const backendStack = new BackendStack(app, 'BackendStack', {
 });
 new BackendPipelineStack(app,"PipelineDeployingBackendStack",{
   lambdaCode: backendStack.lambdaCode
+})
+
+new FrontendPipelineStack(app,"FrontendPipelineStack",{
+  
 })
 
 app.synth()
