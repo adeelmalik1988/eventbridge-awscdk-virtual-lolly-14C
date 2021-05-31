@@ -9,7 +9,7 @@ import * as CodeBuild from '@aws-cdk/aws-codebuild'
 import * as iam from "@aws-cdk/aws-iam"
 
 export class FrontendPipelineStack extends cdk.Stack {
-
+public readonly codePipeline: CodePipeline.IPipeline
     constructor(app: cdk.App, id: string, props?: cdk.StackProps) {
         super(app, id, props);
 

@@ -8,7 +8,9 @@ import { FrontendPipelineStack } from "../lib/frontend_pipeline-stack"
 
 
 const app = new cdk.App();
+//const frontendPipeStack = new FrontendPipelineStack(app,"FrontendPipelineStack",{})
 const backendStack = new BackendStack(app, 'BackendStack', {
+  //codePipeline: frontendPipeStack.codePipeline
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
@@ -23,12 +25,10 @@ const backendStack = new BackendStack(app, 'BackendStack', {
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
-new BackendPipelineStack(app,"PipelineDeployingBackendStack",{
-  lambdaCode: backendStack.lambdaCode
-})
+// new BackendPipelineStack(app,"PipelineDeployingBackendStack",{
+//   lambdaCode: backendStack.lambdaCode,
+ 
 
-new FrontendPipelineStack(app,"FrontendPipelineStack",{
-  
-})
+// })
 
 app.synth()
